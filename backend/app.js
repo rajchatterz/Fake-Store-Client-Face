@@ -25,6 +25,7 @@ app.get('/admin', async(req, res) => {
     res.status(200).json(admin)
 })
 
+
 app.listen(3001)
 mongoose.set('strictQuery', false)
 mongoose.connect('mongodb+srv://rajchatterz:IWlj6fLZ330S2y5H@edtech.df872ze.mongodb.net/?retryWrites=true&w=majority').then((con)=>console.log(`server connected ${con.Connection.EventEmitterAsyncResource}`))
