@@ -1,14 +1,76 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-
-const SignUpScreen = ({navigation}) => {
+import { Image,ActivityIndicator, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import background from '../assets/image/bcg.png'
+const SignUpScreen = ({ navigation }) => {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    
+    const inputData = () => {
+        if (name && password && email) {
+            navigation.navigate('Login')
+        }
+    }
   return (
-    <View>
-      <Text>SignUpScreen</Text>
-    </View>
+        <ImageBackground source={background} style={styles.imageBackground}>
+          <Image style={styles.cartImage} source={require('../assets/image/cart.png')} />
+          <View style={styles.inputContainer}>
+              <TextInput value={name} onChangeText={(text)=>setName(text)} placeholder='Name' style={styles.inputView}/>
+              <TextInput value={email} onChangeText={(text)=>setEmail(text)} placeholder='Email' style={styles.inputView}/>
+              <TextInput value={password} onChangeText={(text)=>setPassword(text)} placeholder='Password' style={styles.inputView}/>
+          </View>
+          <View>
+              <TouchableOpacity onPress={inputData} style={styles.buttonContainer}>
+                  <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
+          </View>
+        </ImageBackground>
   )
 }
 
 export default SignUpScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    imageBackground: {
+        flex: 1,
+        resizeMode: 'cover',
+        alignItems: 'center',
+        justifyContent:'center'
+    },
+    cartImage: {
+        width: 200,
+        height:200
+    },
+    inputView: {
+        backgroundColor: 'white',
+        width: 320,
+        height: 50,   
+        borderRadius: 10,
+        fontWeight: '700',
+        color: '#5b523f',
+        paddingHorizontal:10
+        
+    },
+    buttonContainer: {
+        width: 140,
+        backgroundColor: '#fd8ba0',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        marginTop:30
+        
+    },
+    inputContainer: {
+        alignItems: 'center',
+        // flex:1,
+        justifyContent: 'center',
+        gap:20
+    },
+    buttonText: {
+        fontSize: 20,
+        color:'#ffffff',
+        fontWeight: '900',
+        
+    },
+})
