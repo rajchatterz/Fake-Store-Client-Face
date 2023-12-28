@@ -1,18 +1,21 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 const App = () => {
+  const [data, setData] = useState([]);
   const producrData = async () => {
     const fetchData = await axios.get('http://192.168.215.43:3001/admin');
     const response = fetchData.data;
-    console.log(response);
+    setData(response);
   };
   useEffect(() => {
     producrData();
-  });
+  }, [data]);
   return (
     <View>
-      <Text>App</Text>
+      {data.map((e, index) => (
+        <Text key={index}>{e.name}</Text>
+      ))}
     </View>
   );
 };

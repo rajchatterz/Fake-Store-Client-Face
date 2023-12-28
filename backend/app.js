@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const Product = require('./models/ProductDetails')
+const AuthSchema= require('./models/AuthDeatails')
 const cors = require('cors')
 const mongoose = require('mongoose')
 app.use(cors())
@@ -20,10 +21,18 @@ app.post('/admin', async(req, res) => {
         res.status(500).json(error)
     }
 })
-app.get('/admin', async(req, res) => {
-    const admin = await Product.find({})
-    res.status(200).json(admin)
+app.post('/register', async(req, res) => {
+    try {
+        const users = await AuthSchema.create(req.body)
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).json(error)
+    }
 })
+// app.get('/admin', async(req, res) => {
+//     const admin = await Product.find({})
+//     res.status(200).json(admin)
+// })
 
 
 app.listen(3001)
