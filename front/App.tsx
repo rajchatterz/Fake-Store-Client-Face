@@ -1,12 +1,8 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-
+import Nav from './Navigation/Nav';
 const App = () => {
-  return (
-    <View>
-      <Text>App</Text>
-    </View>
-  );
+  return <Nav />;
 };
 
 export default App;
