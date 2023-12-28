@@ -1,6 +1,7 @@
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
-import shopImage from '../assets/image/shop.jpg'
+import splashImage from '../assets/image/scart.png'
+
 const SplashScreen = ({navigation}) => {
     useEffect(() => {
         setTimeout(() => {
@@ -8,7 +9,7 @@ const SplashScreen = ({navigation}) => {
         },2000)
     })
   return (
-      <ImageBackground style={styles.imageBackground} source={shopImage}>
+      <ImageBackground style={styles.imageBackground} source={splashImage}>
           
     </ImageBackground>
   )
