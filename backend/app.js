@@ -20,6 +20,11 @@ app.post('/admin', async(req, res) => {
         res.status(500).json(error)
     }
 })
+app.get('/admin', async(req, res) => {
+    const admin = await Product.find({})
+    res.status(200).json(admin)
+})
+
 app.listen(3001)
 mongoose.set('strictQuery', false)
 mongoose.connect('mongodb+srv://rajchatterz:IWlj6fLZ330S2y5H@edtech.df872ze.mongodb.net/?retryWrites=true&w=majority').then((con)=>console.log(`server connected ${con.Connection.EventEmitterAsyncResource}`))
