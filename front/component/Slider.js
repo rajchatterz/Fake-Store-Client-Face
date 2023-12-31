@@ -1,0 +1,17 @@
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+
+const Slider = () => {
+    const fetchData = () => {
+        
+    }
+  return (
+    <View>
+      <Text>Slider</Text>
+    </View>
+  )
+}
+
+export default Slider
+
+const styles = StyleSheet.create({})

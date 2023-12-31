@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const producrSchema = mongoose.Schema(
     {
         name: {
-            type: String,
+            type: mongoose.Schema.Types.Mixed,
             required:[true,'Please enter your name']
         },
         price: {
@@ -14,7 +14,7 @@ const producrSchema = mongoose.Schema(
             required:[true,'Color name?']
         },
         image: {
-            type: String,
+            type: mongoose.Schema.Types.Mixed,
             required:[true,'Please paste the image url']
         }
     }

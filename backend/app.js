@@ -60,6 +60,9 @@ app.get('/register/:email', async (req, res) => {
 });
 
 
-app.listen(3001)
+app.listen(3001, () => {
+    console.log('Server running on port 3001');
+});
+
 mongoose.set('strictQuery', false)
 mongoose.connect('mongodb+srv://rajchatterz:IWlj6fLZ330S2y5H@edtech.df872ze.mongodb.net/?retryWrites=true&w=majority').then((con)=>console.log(`server connected ${con.Connection.name}`)).catch((err)=>console.log(err))
