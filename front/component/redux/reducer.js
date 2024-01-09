@@ -1,4 +1,4 @@
-import { ADD_TO_CART } from "./constant";
+import { ADD_TO_CART,REMOVE_FROM_CART } from "./constant";
 const initialState = []
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -7,6 +7,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 action.data
             ]
+        case REMOVE_FROM_CART:
+            return 
         default:
            return state
     }

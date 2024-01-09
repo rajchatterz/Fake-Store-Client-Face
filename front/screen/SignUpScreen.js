@@ -1,7 +1,8 @@
 import { Image,ActivityIndicator, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Modal } from 'react-native'
 import React, { useState } from 'react'
 import background from '../assets/image/bcg.png'
-import { Svg,Path } from 'react-native-svg'
+import { Svg, Path } from 'react-native-svg'
+import Animated,{FadeInUp} from 'react-native-reanimated'
 const SignUpScreen = ({ navigation }) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -9,42 +10,46 @@ const SignUpScreen = ({ navigation }) => {
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const [showModal,setShowModal] = useState(false)
-    const inputData = () => {
-        if (name && password && email) {
-          passDataToApi()
-          setName('')
-          setEmail('')
-          setPassword('')
-          setShowModal(true)
-          
-          
-        } else {
-          errorHandling()
-        }
+  const inputData = () => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    
+    if (!emailPattern.test(email)) {
+      setEmailError(true)
+      
+    }
+    else { 
+      setEmailError(false)
+    }
+      if (!password.length < 8) {
+      setPasswordError(true)
+    } else {
+      setPasswordError(false)
+      
+      }
+    if (!email || !password || !emailPattern.test(email) || password.length < 8) {
+      return
+    }
+    setEmail('')
+    setName('')
+    setPassword('')
+    passDataToApi()
+  
+    setShowModal(true)
+    
     }
   const login = () => {
-    navigation.navigate('Login')
+    navigation.push('Login')
   }
   const showDialoge = () => {
-    navigation.navigate('Login')
-    setShowModal(false)
+   navigation.push('Login')
+      setShowModal(false)
+    
   }
   
-  const errorHandling = () => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!email || !emailPattern.test(email)) {
-      setEmailError(true)
-    }
-    if (!password || !password.length < 9) {
-      setPasswordError(true)
-    }
-    else {
-      setEmailError(false)
-      setPasswordError(false)
-    }
-  }
+  
     const passDataToApi = async() => {
-      const url = 'http://192.168.102.43:3001/register/'
+      const url = 'http://192.168.222.43:3001/register/'
       const postData = await fetch(url, {
         method: 'POST',
         headers: {
@@ -58,29 +63,31 @@ const SignUpScreen = ({ navigation }) => {
     }
   return (
         <ImageBackground source={background} style={[styles.imageBackground,showModal&& styles.transparentBackground]}>
-          <Image style={styles.cartImage} source={require('../assets/image/cart.png')} />
+      <Animated.Image entering={FadeInUp.duration(1000).springify()} style={styles.cartImage} source={require('../assets/image/cart.png')} />
           <View style={styles.inputContainer}>
-              <TextInput value={name} onChangeText={(text)=>setName(text)} placeholder='Name' style={styles.inputView}/>
-               <View style={styles.errorMessage}>
-                <TextInput value={email} onChangeText={(text) => setEmail(text)} placeholder='Email' style={styles.inputView} />
+              <Animated.View entering={FadeInUp.delay(200).duration(1000).springify()}>
+                <TextInput value={name} onChangeText={(text)=>setName(text)} placeholder='Name' style={styles.inputView}/>
+              </Animated.View>
+               <Animated.View entering={FadeInUp.delay(400).duration(1000).springify()} style={styles.errorMessage}>
+                <TextInput value={email} onChangeText={(text) => [setEmail(text),setEmailError(false)]} placeholder='Email' style={styles.inputView} />
                 {emailError?<Text style={styles.errorText}>Please Enter a Valid Email</Text>:null}
-              </View>
-              <View style={styles.errorMessage}>
-                <TextInput secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} placeholder='Password' style={styles.inputView} />
+              </Animated.View>
+              <Animated.View entering={FadeInUp.delay(600).duration(1000).springify()} style={styles.errorMessage}>
+                <TextInput secureTextEntry={true} value={password} onChangeText={(text) => [setPassword(text),setPasswordError(false)]} placeholder='Password' style={styles.inputView} />
                 {passwordError?<Text style={styles.errorText}>Please Enter a valid password</Text>:null}
-              </View>
-      </View>
-      <View style={styles.login}>
+              </Animated.View>
+        </View>
+      <Animated.View entering={FadeInUp.delay(700).duration(1000).springify()} style={styles.login}>
         <Text style={{fontWeight:'700',}}>Have an account</Text>
         <TouchableOpacity onPress={()=>login()}>
           <Text style={styles.logintext}>Log In</Text>
         </TouchableOpacity>
-      </View>
-          <View>
-              <TouchableOpacity onPress={inputData} style={styles.buttonContainer}>
+      </Animated.View>
+          <Animated.View entering={FadeInUp.delay(1000).duration(1000).springify()}>
+              <TouchableOpacity onPress={()=>inputData()} style={styles.buttonContainer}>
                   <Text style={styles.buttonText}>Sign Up</Text>
               </TouchableOpacity>
-      </View>
+      </Animated.View>
       <Modal transparent={true} visible={showModal}>
         <View style={styles.modalView}>
           <Svg width={100} height={100} viewBox="0 0 50 50">

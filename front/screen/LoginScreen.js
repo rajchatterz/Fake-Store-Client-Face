@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Animated,{FadeInUp,FadeInDown} from 'react-native-reanimated';
 import background from '../assets/image/bcg.png';
 import axios from 'axios';
 
+
 const LoginScreen = ({ navigation }) => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-
+  const storeUserData = async() => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn','true')
+      await AsyncStorage.setItem('userEmail',email)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const fetchData = async () => {
       try {
-          let url = `http://192.168.102.43:3001/register/${email}`;
+          let url = `http://192.168.222.43:3001/register/${email}`;
             let response = await axios.get(url)
             let result = response.data
-            if (result.password === password) {
+        if (result.password === password) {
+              storeUserData()
                 navigation.navigate('Home')
             } else {
                 setPasswordError(true);
@@ -27,24 +39,27 @@ const LoginScreen = ({ navigation }) => {
   return (
     <ImageBackground style={styles.imageBackground} source={background}>
       <View style={styles.inputContainer}>
-        <Image style={styles.cartImage} source={require('../assets/image/cart.png')} />
-        <TextInput onChangeText={(text) => setEmail(text)} placeholder='Email' style={styles.inputView} />
-        <View>
+        <Animated.Image entering={FadeInUp.duration(1000).springify()} style={styles.cartImage} source={require('../assets/image/cart.png')} />
+        <Animated.View entering={FadeInUp.delay(200).duration(1000).springify()}>
+          <TextInput onChangeText={(text) => setEmail(text)} placeholder='Email' style={styles.inputView} />
+        </Animated.View>
+        <Animated.View entering={FadeInUp.delay(400).duration(1000).springify()}>
           <TextInput onChangeText={(text) => [setPassword(text),setPasswordError(false)]} placeholder='Password' secureTextEntry={true} style={styles.inputView} />
           {passwordError ? <Text style={styles.errorText}>Invalid credentials</Text> : null}
-        </View>
-        <View>
-          <TouchableOpacity onPress={fetchData} style={styles.buttonContainer}>
+        </Animated.View>
+        <Animated.View entering={FadeInUp.delay(600).duration(1000).springify()}>
+          <TouchableOpacity onPress={()=>fetchData()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.registerBtn}>
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(800).duration(1000).springify()} style={styles.registerBtn}>
           <Text style={{ fontWeight: '500', color: 'black' }}>Don't have an account</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <TouchableOpacity onPress={() => navigation.push('SignUp')}>
             <Text style={styles.opText}>Register Here</Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       </View>
+
     </ImageBackground>
   );
 };
@@ -96,7 +111,7 @@ const styles = StyleSheet.create({
   opText: {
     fontWeight: '900',
     marginRight: 10,
-    color: '#181515',
+    color: '#c50808',
   },
   errorText: {
     color: 'red',
